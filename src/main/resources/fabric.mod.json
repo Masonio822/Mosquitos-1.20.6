@@ -1,0 +1,39 @@
+{
+	"schemaVersion": 1,
+	"id": "mosquitos",
+	"version": "${version}",
+	"name": "Mosquitos",
+	"description": "This is a mod that adds Mosquitos and blood-related combat items!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.masonio.mosquitos.Mosquitos"
+		],
+		"client": [
+			"net.masonio.mosquitos.MosquitosClient"
+		],
+		"fabric-datagen": [
+			"net.masonio.mosquitos.MosquitosDataGenerator"
+		]
+	},
+	"mixins": [
+		"mosquitos.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.20.6",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
