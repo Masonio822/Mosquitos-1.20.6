@@ -1,5 +1,6 @@
 package net.masonio.mosquitos.item.custom;
 
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -19,11 +20,24 @@ public class MosquitoSackItem extends Item {
             int healthToHeal = (int) (user.getMaxHealth() - user.getHealth());
             ItemStack itemStack = user.getStackInHand(hand);
             if (healthToHeal < ((itemStack.getMaxDamage() - itemStack.getDamage()))) {
-                itemStack.damage(healthToHeal, user, LivingEntity.getSlotForHand(hand));
-                user.heal(healthToHeal);
-                return TypedActionResult.success(itemStack);
+                user.setCurrentHand(hand);
+                return TypedActionResult.consume(user.getStackInHand(hand));
             }
         }
         return TypedActionResult.pass(user.getStackInHand(hand));
+    }
+
+    @Override
+    public ItemStack finishUsing(ItemStack itemStack, World world, LivingEntity user) {
+        if (!world.isClient) {
+            user.heal((int) (user.getMaxHealth() - user.getHealth()));
+            itemStack.damage((int) (user.getMaxHealth() - user.getHealth()), user, LivingEntity.getSlotForHand(user.getActiveHand()));
+        }
+        return itemStack;
+    }
+
+    @Override
+    public int getMaxUseTime(ItemStack itemStack){
+        return 40; //2 seconds
     }
 }

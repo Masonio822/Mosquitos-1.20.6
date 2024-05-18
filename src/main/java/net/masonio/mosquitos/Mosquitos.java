@@ -1,7 +1,6 @@
 package net.masonio.mosquitos;
 
 import net.fabricmc.api.ModInitializer;
-
 import net.masonio.mosquitos.enchantment.LeechEnchantment;
 import net.masonio.mosquitos.item.ModItems;
 import net.minecraft.enchantment.Enchantment;
@@ -19,6 +18,6 @@ public class Mosquitos implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.registerModItems();
-		Registry.register(Registries.ENCHANTMENT, new Identifier("mosquitos", "leech"), LEECH);
+		Registry.register(Registries.ENCHANTMENT, new Identifier(MOD_ID, "leech"), LEECH);
 	}
 }
