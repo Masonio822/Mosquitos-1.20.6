@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "mosquitos:red_mosquito_sack",
+    "mosquitos:yellow_mosquito_sack",
     "minecraft:enchanted_book"
   ]
 }

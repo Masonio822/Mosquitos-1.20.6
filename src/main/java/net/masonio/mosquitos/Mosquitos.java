@@ -6,7 +6,6 @@ import net.masonio.mosquitos.enchantment.LeechEnchantment;
 import net.masonio.mosquitos.item.ModItems;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;

@@ -14,7 +14,6 @@ public class LeechEnchantment extends Enchantment {
                 Enchantment.constantCost(65),
                 4,
                 EquipmentSlot.MAINHAND));
-        System.out.println(ModTags.Items.SACK_ENCHANTABLE);
     }
 
     @Override
