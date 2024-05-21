@@ -15,10 +15,12 @@ public class ModItems {
 
     public static final Item REDMOSQUITOSAC = registerItem("red_mosquito_sack", new MosquitoSackItem(new Item.Settings().maxDamage(21)));
     public static final Item YELLOWMOSQUITOSAC = registerItem("yellow_mosquito_sack", new MosquitoSackItem(new Item.Settings().maxDamage(21)));
+    public static final Item PURPLEMOSQUITOSAC = registerItem("purple_mosquito_sack", new MosquitoSackItem(new Item.Settings().maxDamage(41)));
 
     private static void addItemsToCombatTabItemGroup(FabricItemGroupEntries entries){
         entries.addAfter(Items.TOTEM_OF_UNDYING, REDMOSQUITOSAC);
         entries.addAfter(REDMOSQUITOSAC, YELLOWMOSQUITOSAC);
+        entries.addAfter(YELLOWMOSQUITOSAC, PURPLEMOSQUITOSAC);
     }
 
     private static Item registerItem(String name, Item item) {

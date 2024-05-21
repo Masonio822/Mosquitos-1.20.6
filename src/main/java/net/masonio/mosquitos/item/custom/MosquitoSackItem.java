@@ -14,34 +14,17 @@ import net.minecraft.world.World;
 import static net.masonio.mosquitos.Mosquitos.LEECH;
 
 public class MosquitoSackItem extends Item {
+    int useTickTimer = 0;
     public MosquitoSackItem(Settings settings) {
-        super(settings);
+        super(settings.maxCount(1));
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!world.isClient && !(user.getEquippedStack(EquipmentSlot.MAINHAND).getDamage() == user.getEquippedStack(EquipmentSlot.MAINHAND).getMaxDamage() - 1)) {
-            ItemStack itemStack = user.getStackInHand(hand);
-            int durability = itemStack.getMaxDamage() - itemStack.getDamage();
-            int healthToHeal;
-            System.out.println(getMaxUseTime(itemStack));
-            if (!(user.getHealth() == user.getMaxHealth())) {
-                healthToHeal = (int) (user.getMaxHealth() - user.getHealth());
-                if (healthToHeal > durability && !(durability == 1)) {
-                    healthToHeal = durability - 1;
-                }
-                for (int i = healthToHeal; i > 0; i--) {
-                    user.setCurrentHand(hand);
-                    user.heal(1);
-                    itemStack.damage(1, user, LivingEntity.getSlotForHand(hand));
-                    try {
-                        wait(itemStack.getMaxUseTime() / 20);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                return TypedActionResult.success(user.getStackInHand(hand));
-            }
+        if (!world.isClient && canUseSack(user)) {
+            useTickTimer = 0;
+            user.setCurrentHand(hand);
+            return TypedActionResult.consume(user.getStackInHand(hand));
         }
         return TypedActionResult.pass(user.getStackInHand(hand));
     }
@@ -57,10 +40,26 @@ public class MosquitoSackItem extends Item {
     }
 
     @Override
+    public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+        if (canUseSack(user) && !world.isClient()) {
+            if (useTickTimer % (stack.getMaxUseTime() / 20) == 0) {
+                user.heal(1);
+                stack.damage(1, user, EquipmentSlot.MAINHAND);
+            }
+            useTickTimer++;
+        }
+    }
+
+    @Override
     public int getMaxUseTime(ItemStack itemStack){
         if (itemStack.isOf(ModItems.YELLOWMOSQUITOSAC)) {
             return 20; //1 Second
         }
         return 40; //2 Seconds
+    }
+
+    public boolean canUseSack(LivingEntity user) {
+        ItemStack stack = user.getEquippedStack(EquipmentSlot.MAINHAND);
+        return !(stack.getDamage() == stack.getMaxDamage() - 1) && !(user.getMaxHealth() == user.getHealth());
     }
 }
